@@ -1,0 +1,55 @@
+# stan_version_major = 2
+# stan_version_minor = 28
+# stan_version_patch = 2
+# model = mlba_single_v8_Frechet_generalized_model
+# method = variational
+#   variational
+#     algorithm = meanfield (Default)
+#       meanfield
+#     iter = 10000 (Default)
+#     grad_samples = 1 (Default)
+#     elbo_samples = 100 (Default)
+#     eta = 1 (Default)
+#     adapt
+#       engaged = 1 (Default)
+#       iter = 50 (Default)
+#     tol_rel_obj = 0.001
+#     eval_elbo = 100 (Default)
+#     output_samples = 2000
+# id = 1 (Default)
+# data
+#   file = C:/Users/alescia/AppData/Local/Temp/RtmpkpCL6s/standata-25d450cd851.json
+# init = C:/Users/alescia/AppData/Local/Temp/RtmpkpCL6s/init-1-25d4288a429e.json
+# random
+#   seed = 274815519
+# output
+#   file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/fit_gen_chiffre_1-1.csv
+#   diagnostic_file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/mlba_single_v8_Frechet_generalized-diagnostic-1.csv
+#   refresh = 100 (Default)
+#   sig_figs = -1 (Default)
+#   profile_file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/mlba_single_v8_Frechet_generalized-profile-1.csv
+# num_threads = 1 (Default)
+# iter,time_in_seconds,ELBO
+100,1.07,-481.879
+200,2.104,-471.06
+300,3.147,-472.327
+400,4.199,-512.832
+500,5.248,-470.424
+600,6.314,-471.335
+700,7.345,-472.475
+800,8.452,-471.31
+900,9.571,-476.432
+1000,10.606,-475.965
+1100,11.653,-473.269
+1200,12.683,-489.469
+1300,13.728,-472.373
+1400,14.85,-470.431
+1500,15.901,-470.98
+1600,16.96,-470.758
+1700,18.058,-470.833
+1800,19.253,-470.379
+1900,20.407,-470.644
+2000,21.565,-474.98
+2100,22.712,-470.256
+2200,23.843,-470.629
+2300,25.009,-470.632

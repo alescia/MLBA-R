@@ -1,0 +1,72 @@
+# stan_version_major = 2
+# stan_version_minor = 28
+# stan_version_patch = 2
+# model = mlba_revision_v9_Frechet_generalized_mixed_model
+# method = variational
+#   variational
+#     algorithm = meanfield (Default)
+#       meanfield
+#     iter = 10000 (Default)
+#     grad_samples = 1 (Default)
+#     elbo_samples = 100 (Default)
+#     eta = 1 (Default)
+#     adapt
+#       engaged = 1 (Default)
+#       iter = 50 (Default)
+#     tol_rel_obj = 0.0050000000000000001
+#     eval_elbo = 100 (Default)
+#     output_samples = 2000
+# id = 1 (Default)
+# data
+#   file = C:/Users/alescia/AppData/Local/Temp/RtmpkpCL6s/standata-25d46c0362b3.json
+# init = C:/Users/alescia/AppData/Local/Temp/RtmpkpCL6s/init-1-25d4707a3d65.json
+# random
+#   seed = 590036801
+# output
+#   file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/rev_mix_fit_gen_barre_1-1.csv
+#   diagnostic_file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/mlba_revision_v9_Frechet_generalized_mixed-diagnostic-1.csv
+#   refresh = 100 (Default)
+#   sig_figs = -1 (Default)
+#   profile_file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/mlba_revision_v9_Frechet_generalized_mixed-profile-1.csv
+# num_threads = 1 (Default)
+# iter,time_in_seconds,ELBO
+100,3.687,-2528.1
+200,7.381,-1800.37
+300,11.007,-1475.98
+400,14.904,-1321.19
+500,18.643,-1192.11
+600,22.244,-1120.38
+700,25.954,-1053.18
+800,29.464,-1008.08
+900,32.975,-980.552
+1000,36.52,-953.085
+1100,39.997,-927.343
+1200,43.656,-917.574
+1300,47.241,-895.981
+1400,50.756,-875.669
+1500,54.373,-868.797
+1600,57.868,-849.848
+1700,61.467,-849.846
+1800,65.157,-845.411
+1900,68.768,-831.464
+2000,72.417,-819.352
+2100,76.764,-817.494
+2200,81.39,-803.266
+2300,86.393,-804.354
+2400,90.553,-798.1
+2500,95.537,-794.73
+2600,100.437,-792.546
+2700,105.745,-787.247
+2800,110.073,-781.623
+2900,114.497,-774.844
+3000,119.446,-780.358
+3100,124.837,-773.682
+3200,129.474,-771.643
+3300,135.198,-770.255
+3400,140.385,-769.792
+3500,147.24,-764.754
+3600,152.251,-761.451
+3700,158.42,-766.726
+3800,163.333,-755.297
+3900,169.104,-758.999
+4000,174.202,-758.036
