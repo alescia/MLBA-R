@@ -218,7 +218,6 @@ dev.off()
 
 ## function to do table of shares, times and transitions of choice
 
-
 ```{r}
 
 share_table<-function(rt,treatment){
@@ -362,10 +361,7 @@ save_kable(paste("table_clicks_shares_",effect,".tex", sep=""))
 
 ```
 
-
-
 ## doing simulations of choice, generating tables and figures
-
 
 ```{r}
 ## Menus of options for simulations
@@ -396,7 +392,6 @@ I<-1; m<-2; lam<-0.5; gamma<-3; beta<-1; k<-1; alpha<-1; stay<-1; tau<-0.1;
 ```
 
 ## make a choice what effect you want to graph
-
 
 ```{r}
 # make a choice what effect you want to graph
@@ -617,9 +612,7 @@ rts_exp2<-rt
 
 ```
 
-
 # Evaluation with variational method
-
 
 ```{r}
 ## warning: you need to run many chains and check convergence systematically
@@ -734,7 +727,6 @@ write.csv(fit$draws(format = "df"),file=paste("post_rev_fit_draws_gen_",treatmen
 fit$save_latent_dynamics_files(dir = , basename = paste("post_rev_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
 }
 ```
-
 
 ## Regressions with revisions in choice and mixed effects
 
@@ -854,11 +846,9 @@ write.csv(summarise_draws(fit),file=paste("summary_",type,"_fit_gen_",treatment,
 
 ```
 
-
 # formatting and presenting results of estimation
 
 ## summary table of model estimation results
-
 
 ```{r}
 
@@ -979,9 +969,7 @@ x=kable(tab, format = "latex", caption = "Parameter estimates, mixed model with 
 as.pdf(tab, stem="tab_mix_rev")
 ```
 
-
-## extracting individual parameter estimates from mixed estimations 
-
+## extracting individual parameter estimates from mixed estimations
 
 ```{r}
 
@@ -1032,7 +1020,7 @@ formatted_rev_mix_fit_exp2_id$alpha<-rep(formatted_rev_mix_fit_exp2_id$alpha[1],
 formatted_rev_mix_fit_exp2_id<-formatted_rev_mix_fit_exp2_id[-1,]
 ```
 
-##  summary tables of individual estimates
+## summary tables of individual estimates
 
 ```{r}
 # doing tables of average individual estimates
@@ -1084,8 +1072,7 @@ as.pdf(tab, stem="mix_individual")
 
 ```
 
-
-##  graphs of parameter estimates
+## graphs of parameter estimates
 
 ```{r}
 # doing distribution of parameter estimates, by treatment
@@ -1164,9 +1151,7 @@ ggsave("individual_parameter_correlation_better.png", width = 16/1.5, height = 1
 
 ```
 
-
-
-##  tables of speed, precision, bias, etc using example options and mean of individual estimates
+## tables of speed, precision, bias, etc using example options and mean of individual estimates
 
 ```{r}
 individual_parameter_estimates<-read.csv("individual_parameter_estimates.csv")
@@ -1371,9 +1356,6 @@ ggsave("individual_indicator_correlation_compromise_better.png", width = 16/1.5,
        units = "in", dpi = 300)
 ```
 
-
-
-
 ## table of summary individual indicator estimates
 
 ```{r}
@@ -1432,7 +1414,6 @@ write.csv(tab,file="individual_indicator_estimates_stats.csv", row.names = FALSE
 
 
 ```
-
 
 ## clustering individuals to define types
 
@@ -1598,8 +1579,6 @@ cast_ff_2<-cast(ff_2, variable ~ fourcluster+treatment, function(x) c(mean(x), q
 
 ```
 
-
-
 ## doing graphs of post-estimated choices over time using mean parameters of mixed models
 
 ```{r}
@@ -1720,9 +1699,6 @@ share_graph(rt_test,paste(treatment,"_",effect,sep=""))
 # for this go to step 1 and choose to save tables in Postestimated_graphs
 
 ```
-
-
-
 
 ## doing graphs of post-estimated choices over time using individual parameters of mixed models
 
