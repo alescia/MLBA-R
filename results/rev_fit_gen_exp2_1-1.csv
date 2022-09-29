@@ -1,0 +1,35 @@
+# stan_version_major = 2
+# stan_version_minor = 28
+# stan_version_patch = 2
+# model = mlba_revision_v9_Frechet_generalized_model
+# start_datetime = 2022-09-26 15:07:57 UTC
+# method = variational
+#   variational
+#     algorithm = meanfield (Default)
+#       meanfield
+#     iter = 10000 (Default)
+#     grad_samples = 1 (Default)
+#     elbo_samples = 100 (Default)
+#     eta = 1 (Default)
+#     adapt
+#       engaged = 1 (Default)
+#       iter = 50 (Default)
+#     tol_rel_obj = 0.001
+#     eval_elbo = 100 (Default)
+#     output_samples = 2000
+# id = 1 (Default)
+# data
+#   file = C:/Users/alescia/AppData/Local/Temp/RtmpkpCL6s/standata-25d4405263d3.json
+# init = C:/Users/alescia/AppData/Local/Temp/RtmpkpCL6s/init-1-25d4688a1351.json
+# random
+#   seed = 4530999
+# output
+#   file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/rev_fit_gen_exp2_1-1.csv
+#   diagnostic_file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/mlba_revision_v9_Frechet_generalized-diagnostic-1.csv
+#   refresh = 100 (Default)
+#   sig_figs = -1 (Default)
+#   profile_file = C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/GitHub/mlba_revision_v9_Frechet_generalized-profile-1.csv
+# num_threads = 1 (Default)
+# stanc_version = stanc3 v2.28.1
+# stancflags = --name=mlba_revision_v9_Frechet_generalized_model
+lp__,log_p__,log_g__,I,m,lam,gamma,beta,stay,alpha,k,tau

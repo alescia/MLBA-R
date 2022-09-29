@@ -70,6 +70,9 @@ library(tikzDevice)
 
 ```
 
+# SIMULATIONS
+
+
 ## function to do graph of simulated choices over time
 
 ```{r}
@@ -157,7 +160,7 @@ diff_first<-choices_panel %>%
 
 
 
-png(file=paste("share_choice_with_first_simul_",treatment,".png",sep=""),width=650, height=550)
+png(file=paste("./graphs/share_choice_with_first_simul_",treatment,".png",sep=""),width=650, height=550)
 
 p1<- ggplot(data=choices_panel_fin,aes(time, mean, group = chosen, color=chosen))+
   geom_line(size=1.5)+
@@ -355,7 +358,7 @@ table %>%
   add_header_above(c("share %", "time", "", "share %", "time", "", "share %")) %>% 
   add_header_above(c("First choice" = 3, "Revision" = 3, "After revision" = 2)) %>% 
 
-save_kable(paste("table_clicks_shares_",effect,".tex", sep=""))
+save_kable(paste("./tables/table_clicks_shares_",effect,".tex", sep=""))
 
 }
 
@@ -452,13 +455,13 @@ share_table(rt_test, effect)
 
 ```
 
-# preparing data for estimation
+# ESTIMATION
 
 ## loading and storing data from experiment 1
 
 ```{r eval=FALSE, include=FALSE}
 
-First_two_choices <- read.csv2("First_five_choices_exp1.csv", sep=",")
+First_two_choices <- read.csv2("./data/First_five_choices_exp1.csv", sep=",")
 
 
 treatment<-car::recode(First_two_choices$treatment, "'barres'= 0 ; 'chiffres'= 1")
@@ -505,17 +508,17 @@ rt<-as.data.frame(rt)
 
 rt<-na.omit(rt) #this gets rid of all 2 menus and of all try out menus and menus with no choice made
 
-write.csv(rt,file="rt_exp_1.csv", row.names = FALSE)
+write.csv(rt,file="./data/rt_exp_1.csv", row.names = FALSE)
 
 # saving menus with a CS and three options
 
 menus_cs_exp1<-rt[rt$type==1&rt$id==626312,][,9:14]
-write.csv(menus_cs_exp1,file="menus_cs_exp1.csv", row.names = FALSE)
+write.csv(menus_cs_exp1,file="./data/menus_cs_exp1.csv", row.names = FALSE)
 
 
 
 # load data locally for estimation
-rt<-read.csv("rt_exp_1.csv")
+rt<-read.csv("./data/rt_exp_1.csv")
 
 
 # selecting menus with a CS and three options
@@ -536,7 +539,7 @@ rts_chifr<-rts_exp1[rts$treatment==1,1:15]
 ```{r eval=FALSE, include=FALSE}
 # experiment 2
 
-First_two_choices <- read.csv2("First_two_choices_exp2.csv", sep=",")
+First_two_choices <- read.csv2("./data/First_two_choices_exp2.csv", sep=",")
 describe(First_two_choices)
 
 
@@ -592,18 +595,18 @@ rt<-as.data.frame(rt)
 # save menus
 
 menus_cs_exp2<-rt[rt$type!="2menu"&rt$id==1,][,9:14]
-write.csv(menus_cs_exp2,file="menus_cs_exp2.csv", row.names = FALSE)
+write.csv(menus_cs_exp2,file="./data/menus_cs_exp2.csv", row.names = FALSE)
 
 
 rt<-na.omit(rt) #this gets rid of all 2 menus and of all try out menus and cases where no choice made
 len = length(rt[,1])
 describe(rt)
 
-write.csv(rt,file="rt_exp_2.csv", row.names = FALSE)
+write.csv(rt,file="./data/rt_exp_2.csv", row.names = FALSE)
 
 
 # load data locally for estimation
-rt<-read.csv("rt_exp_2.csv")
+rt<-read.csv("./data/rt_exp_2.csv")
 
 
 rts_exp2<-rt
@@ -692,7 +695,7 @@ fit <- mod$variational(
   output_samples = ndraws,
   init=function () list(k=k,tau=tau,I=I,m=m,lam=lam,gamma=gamma,beta=beta,alpha=alpha),
   output_dir = working_dir,
-  output_basename = paste("fit_gen_",treatment,"_",i,sep = ""),
+  output_basename = paste("./results/fit_gen_",treatment,"_",i,sep = ""),
   save_latent_dynamics=TRUE,
   algorithm="meanfield",
   tol_rel_obj=0.001,
@@ -700,8 +703,8 @@ fit <- mod$variational(
   elbo_samples = 100)
 
 fit$summary()
-write.csv(fit$draws(format = "df"),file=paste("post_fit_draws_gen_",treatment,"_",i,".csv",sep=""))
-fit$save_latent_dynamics_files(dir = , basename = paste("post_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
+write.csv(fit$draws(format = "df"),file=paste("./results/post_fit_draws_gen_",treatment,"_",i,".csv",sep=""))
+fit$save_latent_dynamics_files(dir = , basename = paste("./results/post_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
 }
 ```
 
@@ -716,15 +719,15 @@ fit <- mod_rev2$variational(
   output_samples = ndraws,
   init=function () list(I=I,m=m,lam=lam,gamma=gamma,beta=beta,stay=stay,alpha=alpha),
   output_dir = working_dir,
-  output_basename = paste("rev_fit_gen_",treatment,"_",i,sep = ""),
+  output_basename = paste("./results/rev_fit_gen_",treatment,"_",i,sep = ""),
   save_latent_dynamics=TRUE,
   algorithm="meanfield",
   tol_rel_obj=0.001,
   elbo_samples = 100)
 fit$summary()
 
-write.csv(fit$draws(format = "df"),file=paste("post_rev_fit_draws_gen_",treatment,"_",i,".csv",sep=""))
-fit$save_latent_dynamics_files(dir = , basename = paste("post_rev_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
+write.csv(fit$draws(format = "df"),file=paste("./results/post_rev_fit_draws_gen_",treatment,"_",i,".csv",sep=""))
+fit$save_latent_dynamics_files(dir = , basename = paste("./results/post_rev_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
 }
 ```
 
@@ -744,7 +747,7 @@ fit <- mod_rev_mix2$variational(
   iter = 10000,
   output_samples = ndraws,
   output_dir = working_dir,
-  output_basename = paste("rev_mix_fit_gen_",treatment,"_",i,sep = ""),
+  output_basename = paste("./results/rev_mix_fit_gen_",treatment,"_",i,sep = ""),
   save_latent_dynamics=TRUE,
   algorithm="meanfield",
   tol_rel_obj=0.005,
@@ -752,8 +755,8 @@ fit <- mod_rev_mix2$variational(
   elbo_samples = 100)
 
 fit$summary()
-write.csv(fit$draws(format = "df"),file=paste("post_rev_mix_fit_draws_gen_",treatment,"_",i,".csv",sep=""))
-fit$save_latent_dynamics_files(dir = , basename = paste("post_rev_mix_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
+write.csv(fit$draws(format = "df"),file=paste("./results/post_rev_mix_fit_draws_gen_",treatment,"_",i,".csv",sep=""))
+fit$save_latent_dynamics_files(dir = , basename = paste("./results/post_rev_mix_fit_latent_gen_","_",i,treatment,sep=""), timestamp = FALSE, random = FALSE)
 }
 
 
@@ -763,12 +766,7 @@ fit$save_latent_dynamics_files(dir = , basename = paste("post_rev_mix_fit_latent
 
 ```{r}
 
-# vector to store chains
-
-draws<-vector("list",nchains)
-
-
-# choose what type of estimate to look at
+# choose what type of estimate to look at (given a choice of dataset, either barre, chiffre or exp2)
 
 # single estimates
 
@@ -786,10 +784,15 @@ type<-"_rev_mix_"
 
 
 
-# then put all draws from all chains together for the treatment and model chosen (here, assuming 20 chains)
+
+# vector to store chains
+
+draws<-vector("list",nchains)
+
+# put all draws from all chains together for the treatment and model chosen
 
 for(i in 1:nchains){
-draws[[i]]<-read_csv(paste("post",type,"fit_draws_gen_",treatment,"_",i,".csv", sep=""))
+draws[[i]]<-read_csv(paste("./results/post",type,"fit_draws_gen_",treatment,"_",i,".csv", sep=""))
 }
 
 # concatenate all draws on all chains, for demonstration purpose only one
@@ -840,8 +843,8 @@ mcmc_violin(fit,pars=c("mu_beta","alpha","mu_stay"))
 
 # saving post estimates and summary table of estimates
 
-write.csv(fit,file=paste("draws_",type,"_fit_gen_",treatment,".csv",sep=""))
-write.csv(summarise_draws(fit),file=paste("summary_",type,"_fit_gen_",treatment,".csv",sep=""))
+write.csv(fit,file=paste("./results/draws_",type,"_fit_gen_",treatment,".csv",sep=""))
+write.csv(summarise_draws(fit),file=paste("./results/summary_",type,"_fit_gen_",treatment,".csv",sep=""))
 
 
 ```
@@ -854,15 +857,15 @@ write.csv(summarise_draws(fit),file=paste("summary_",type,"_fit_gen_",treatment,
 
 # this part uses stored estimates from the estimate files
 
-summary_single_fit_barre   <- read_csv("summary___fit_gen_barre.csv")
-summary_single_fit_chiffre <- read_csv("summary___fit_gen_chiffre.csv")
-summary_single_fit_exp2    <- read_csv("summary___fit_gen_exp2.csv")
-summary_rev_fit_barre   <- read_csv("summary__rev__fit_gen_barre.csv")
-summary_rev_fit_chiffre <- read_csv("summary__rev__fit_gen_chiffre.csv")
-summary_rev_fit_exp2    <- read_csv("summary__rev__fit_gen_exp2.csv")
-summary_rev_mix_fit_barre   <- read_csv("summary__rev_mix__fit_gen_barre.csv")
-summary_rev_mix_fit_chiffre <- read_csv("summary__rev_mix__fit_gen_chiffre.csv")
-summary_rev_mix_fit_exp2    <- read_csv("summary__rev_mix__fit_gen_exp2.csv")
+summary_single_fit_barre   <- read_csv("./results/summary___fit_gen_barre.csv")
+summary_single_fit_chiffre <- read_csv("./results/summary___fit_gen_chiffre.csv")
+summary_single_fit_exp2    <- read_csv("./results/summary___fit_gen_exp2.csv")
+summary_rev_fit_barre   <- read_csv("./results/summary__rev__fit_gen_barre.csv")
+summary_rev_fit_chiffre <- read_csv("./results/summary__rev__fit_gen_chiffre.csv")
+summary_rev_fit_exp2    <- read_csv("./results/summary__rev__fit_gen_exp2.csv")
+summary_rev_mix_fit_barre   <- read_csv("./results/summary__rev_mix__fit_gen_barre.csv")
+summary_rev_mix_fit_chiffre <- read_csv("./results/summary__rev_mix__fit_gen_chiffre.csv")
+summary_rev_mix_fit_exp2    <- read_csv("./results/summary__rev_mix__fit_gen_exp2.csv")
 
 
 formatted_single_fit_barre <- summary_single_fit_barre %>%
@@ -938,10 +941,11 @@ colnames(tab) <- c("Parameters","Mean","$90\\%$ CI","$N_{eff}$","Mean","$90\\%$ 
 tab$Parameters<-c("$LL$","$LL_a$","$I$","$m$","$\\lambda$","$\\gamma$","$\\beta$","$\\alpha$")
 
 
-x=kable(tab, format = "latex", caption = "Parameter estimates, model with only first choices", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tab_single.tex")
+x=kable(tab, format = "latex", caption = "Parameter estimates, model with only first choices", booktabs = TRUE, digits=2, escape=F) %>% save_kable(".\\tables\\tab_single.tex")
+
 
 as.pdf(tab, stem="tab_single")
-
+file.rename(from="tab_single.pdf",to="./tables/tab_single.pdf")
 
 
 tab <- bind_cols(formatted_rev_fit_barre, formatted_rev_fit_chiffre,formatted_rev_fit_exp2)
@@ -951,10 +955,10 @@ colnames(tab) <- c("Parameters","Mean","$90\\%$ CI","$N_{eff}$","Mean","$90\\%$ 
 tab$Parameters<-c("$LL$","$LL_a$","$I$","$m$","$\\lambda$","$\\gamma$","$\\beta$","$\\stay$","$\\alpha$")
 
 
-x=kable(tab, format = "latex", caption = "Parameter estimates, model with revisions", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tab_rev.tex")
+x=kable(tab, format = "latex", caption = "Parameter estimates, model with revisions", booktabs = TRUE, digits=2, escape=F) %>% save_kable(".\\tables\\tab_rev.tex")
 
 as.pdf(tab, stem="tab_rev")
-
+file.rename(from="tab_rev.pdf",to="./tables/tab_rev.pdf")
 
 
 tab <- bind_cols(formatted_rev_mix_fit_barre, formatted_rev_mix_fit_chiffre,formatted_rev_mix_fit_exp2)
@@ -964,12 +968,14 @@ colnames(tab) <- c("Parameters","Mean","$90\\%$ CI","$N_{eff}$","Mean","$90\\%$ 
 tab$Parameters<-c("$LL$","$LL_a$","$\\mu_I$","$\\mu_m$","$\\mu_\\lambda$","$\\mu_{\\gamma}$","$\\mu_{\\beta}$","$\\tau_I$","$\\tau_m$","$\\tau_{\\lambda}$","$\\tau_{\\gamma}$","$\\tau_{\\beta}$","$\\mu_{\\stay}$","$\\tau_{\\stay}$","$\\alpha$")
 
 
-x=kable(tab, format = "latex", caption = "Parameter estimates, mixed model with revisions", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tab_mixed.tex")
+x=kable(tab, format = "latex", caption = "Parameter estimates, mixed model with revisions", booktabs = TRUE, digits=2, escape=F) %>% save_kable(".\\tables\\tab_mixed.tex")
 
 as.pdf(tab, stem="tab_mix_rev")
+file.rename(from="tab_mix_rev.pdf",to="./tables/tab_mix_rev.pdf")
 ```
 
-## extracting individual parameter estimates from mixed estimations
+## extracting individual parameter estimates from mixed estimations and doing summary tables of individual estimates
+
 
 ```{r}
 
@@ -1018,11 +1024,8 @@ formatted_rev_mix_fit_exp2_id <- summary_rev_mix_fit_exp2 %>%
 
 formatted_rev_mix_fit_exp2_id$alpha<-rep(formatted_rev_mix_fit_exp2_id$alpha[1],199)
 formatted_rev_mix_fit_exp2_id<-formatted_rev_mix_fit_exp2_id[-1,]
-```
 
-## summary tables of individual estimates
 
-```{r}
 # doing tables of average individual estimates
 
 
@@ -1069,10 +1072,11 @@ x=kable(tab, format = "latex", caption = "Parameter estimates, by individual, mi
 
 library(latexpdf)
 as.pdf(tab, stem="mix_individual")
+file.rename(from="mix_individual.pdf",to="./tables/mix_individual.pdf")
 
 ```
 
-## graphs of parameter estimates
+## storing individual parameter estimates
 
 ```{r}
 # doing distribution of parameter estimates, by treatment
@@ -1091,11 +1095,15 @@ colnames(c)<-c("treatment","I","gamma","m","lam","beta","stay","alpha")
 individual_parameter_estimates<-rbind(a,b,c)
 
 
-write.csv(individual_parameter_estimates,file="individual_parameter_estimates.csv", row.names = FALSE)
+write.csv(individual_parameter_estimates,file="./results/individual_parameter_estimates.csv", row.names = FALSE)
+```
+
+## graphs of individual parameter estimates
+
+```{r}
 
 
-
-individual_parameter_estimates<-read.csv("individual_parameter_estimates.csv")
+individual_parameter_estimates<-read.csv("./results/individual_parameter_estimates.csv")
 
 a<-individual_parameter_estimates$treatment
 a<-factor(a)
@@ -1107,22 +1115,19 @@ individual_parameter_estimates$lambda<-individual_parameter_estimates$lam
 
 # distribution and correlation of parameters
 
-# new way to do the same
-
 p<-ggpairs(individual_parameter_estimates, 
         columns = c("I", "gamma", "m","lambda","beta","stay"), 
         ggplot2::aes(colour=factor(treatment), alpha=0.3),
         diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"))+
     theme_minimal()
 
-p
-png(file=paste("individual_parameters_correlations.png",sep=""),width=600, height=350)
+png(file=paste("./graphs/individual_parameters_correlations.png",sep=""),width=600, height=350)
 p
 dev.off()
 
 
-### Better code from Paolo to get better resolution and consistent plot
-individual_parameter_estimates<-read.csv("individual_parameter_estimates.csv") %>% as_tibble()
+### Alternative code to get better resolution and consistent plot
+individual_parameter_estimates<-read.csv("./results/individual_parameter_estimates.csv") %>% as_tibble()
 
 
 plotme <- individual_parameter_estimates %>% 
@@ -1144,7 +1149,7 @@ plotme %>%
         labeller = "label_parsed",
         diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"))+
   hrbrthemes::theme_ipsum()
-ggsave("individual_parameter_correlation_better.png", width = 16/1.5, height = 12/1.5, 
+ggsave("./graphs/individual_parameter_correlation_better.png", width = 16/1.5, height = 12/1.5, 
        units = "in", dpi = 300)
 
 
@@ -1154,9 +1159,7 @@ ggsave("individual_parameter_correlation_better.png", width = 16/1.5, height = 1
 ## tables of speed, precision, bias, etc using example options and mean of individual estimates
 
 ```{r}
-individual_parameter_estimates<-read.csv("individual_parameter_estimates.csv")
-
-# simulated options, a is for attraction effect, s is for similarity, c is for compromise
+# spell out simulated options, a is for attraction effect, s is for similarity, c is for compromise
 
 # attraction
 scaling<-4
@@ -1171,10 +1174,11 @@ options_s<-rbind(c(6, 4, 4, 6, 3.8, 6.2), c(4, 6, 6, 4, 6.2, 3.8))/scaling
 #compromise
 
 options_c<-rbind(c(6, 4, 4, 6, 8, 2), c(4, 6, 6, 4, 2, 8))/scaling
+```
 
 # choose what options to do among the three
 
-
+```{r}
 effect<-"attraction"
 options<-options_a
 
@@ -1187,9 +1191,13 @@ options<-options_s
 
 effect<-"compromise"
 options<-options_c
+```
 
+## compute summary indicators for each effect
 
-# then do
+```{r}
+individual_parameter_estimates<-read.csv("./results/individual_parameter_estimates.csv")
+
 
 J<-length(options[,1]) #(nr of menus)
 
@@ -1229,10 +1237,13 @@ if (effect=="attraction") {
 } else {
       rt_test_c<-rt_test
       }
+```
 
 
+## once all rt_test for all effects are computed:
+
+```{r}
 # then store bias and shares depending on what was computed
-# change with alpha
 
 shares_attraction<-rt_test_a[,11:13]^rt_test_a[,21]/rowSums(rt_test_a[,11:13]^rt_test_a[,21])
 shares_similarity<-rt_test_s[,11:13]^rt_test_s[,21]/rowSums(rt_test_s[,11:13]^rt_test_s[,21])
@@ -1258,7 +1269,7 @@ colnames(rt_test)<-c("id","menus","rep","rep2","t1","t2","c1","c2","d1","d2","dr
 
 summary(rt_test)
 
-write.csv(rt_test,file="individual_indicators.csv", row.names = FALSE)
+write.csv(rt_test,file="./results/individual_indicators.csv", row.names = FALSE)
 
 
 library(tibble)
@@ -1296,7 +1307,7 @@ rt_test_mean$bias_c<-tapply(rt_test$bias_comp, rt_test$id, mean)
 
 rt_test_mean$stay<-tapply(rt_test$stay, rt_test$id, mean)
 
-write.csv(rt_test_mean,file="individual_indicator_estimates.csv", row.names = FALSE)
+write.csv(rt_test_mean,file="./results/individual_indicator_estimates.csv", row.names = FALSE)
 
 
 
@@ -1308,7 +1319,7 @@ p_attraction<-ggpairs(rt_test_mean[,],
         diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"))+
     theme_minimal()
 
-png(file=paste("individual_indicator_correlations_attraction.png",sep=""),width=600, height=350)
+png(file=paste("./graphs/individual_indicator_correlations_attraction.png",sep=""),width=600, height=350)
 p_attraction
 dev.off()
 
@@ -1330,7 +1341,7 @@ plotme %>%
         ggplot2::aes(colour=factor(treatment), alpha=0.3),
         diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"))+
   hrbrthemes::theme_ipsum()
-ggsave("individual_indicator_correlation_attraction_better.png", width = 16/1.5, height = 12/1.5, 
+ggsave("./graphs/individual_indicator_correlation_attraction_better.png", width = 16/1.5, height = 12/1.5, 
        units = "in", dpi = 300)
 
 ## similarity
@@ -1341,7 +1352,7 @@ plotme %>%
         ggplot2::aes(colour=factor(treatment), alpha=0.3),
         diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"))+
   hrbrthemes::theme_ipsum()
-ggsave("individual_indicator_correlation_similarity_better.png", width = 16/1.5, height = 12/1.5, 
+ggsave("./graphs/individual_indicator_correlation_similarity_better.png", width = 16/1.5, height = 12/1.5, 
        units = "in", dpi = 300)
 
 ## compromise
@@ -1352,7 +1363,7 @@ plotme %>%
         ggplot2::aes(colour=factor(treatment), alpha=0.3),
         diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"))+
   hrbrthemes::theme_ipsum()
-ggsave("individual_indicator_correlation_compromise_better.png", width = 16/1.5, height = 12/1.5, 
+ggsave("./graphs/individual_indicator_correlation_compromise_better.png", width = 16/1.5, height = 12/1.5, 
        units = "in", dpi = 300)
 ```
 
@@ -1360,7 +1371,7 @@ ggsave("individual_indicator_correlation_compromise_better.png", width = 16/1.5,
 
 ```{r}
 
-rt_test_mean <- read_csv("individual_indicator_estimates.csv")
+rt_test_mean <- read_csv("./results/individual_indicator_estimates.csv")
 
 rt_test_mean<-rt_test_mean[,-1]
 
@@ -1405,11 +1416,11 @@ x=kable(tab, format = "latex", caption = "Indicator estimates, by individual, mi
 
 library(latexpdf)
 as.pdf(tab, stem="mix_individual_indicators")
+file.rename(from="mix_individual_indicators.pdf",to="./tables/mix_individual_indicators.pdf")
 
 
 
-
-write.csv(tab,file="individual_indicator_estimates_stats.csv", row.names = FALSE)
+write.csv(tab,file="./results/individual_indicator_estimates_stats.csv", row.names = FALSE)
 
 
 
@@ -1419,7 +1430,7 @@ write.csv(tab,file="individual_indicator_estimates_stats.csv", row.names = FALSE
 
 ```{r tidy=TRUE}
 library(readr)
-individual_indicator_estimates <- read_csv("C:/Users/alescia/Dropbox/Research/CS3/05-Analysis/LMBAR/individual_indicator_estimates.csv")
+individual_indicator_estimates <- read_csv("./results/individual_indicator_estimates.csv")
 individual_indicator_estimates <- individual_indicator_estimates[,-1]
 individual_indicator<-as.matrix(individual_indicator_estimates[,c("speed","precision","stay","bias_a")])
 library(stats)
@@ -1465,7 +1476,10 @@ m.best <- dim(d_clust$z)[2]
 cat("model-based optimal number of clusters:", m.best, "\n")
 # 4 clusters
 plot(d_clust)
+```
 
+
+```{r tidy=TRUE}
 d_dist <- dist(as.matrix(mydata))   # find distance matrix 
 plot(hclust(d_dist))           # apply hierarchical clustering and plot
 
@@ -1486,70 +1500,71 @@ individual_indicator_estimates %>%
 plot(jitter(individual_indicator_estimates$twocluster),jitter(individual_indicator_estimates$fourcluster))
 
 
-twoclusters <- individual_indicator_estimates %>% drop_na() %>% 
+twocluster <- individual_indicator_estimates %>% drop_na() %>% 
   dplyr::group_by(twocluster,treatment)%>%
-  dplyr::summarize(mean_treatment = mean(treatment),
-            mean_speed = mean(speed),
-            mean_precision = mean(precision),
-            mean_bias = mean(bias_a),
-            mean_stay = mean(stay),
+  dplyr::summarize(treatment = mean(treatment),
+            speed = mean(speed),
+            precision = mean(precision),
+            bias = mean(bias_a),
+            stay = mean(stay),
             N = length(stay))
 
 twoclusteroverall <- individual_indicator_estimates %>% drop_na() %>% 
   dplyr::group_by(twocluster)%>%
-  dplyr::summarize(mean_speed = mean(speed),
-            mean_precision = mean(precision),
-            mean_bias = mean(bias_a),
-            mean_stay = mean(stay),
+  dplyr::summarize(speed = mean(speed),
+            precision = mean(precision),
+            bias = mean(bias_a),
+            stay = mean(stay),
             N = length(stay))
 
 
 fourcluster <- individual_indicator_estimates %>% drop_na() %>% 
   dplyr::group_by(fourcluster,treatment)%>%
-  dplyr::summarize(mean_treatment = mean(treatment),
-            mean_speed = mean(speed),
-            mean_precision = mean(precision),
-            mean_bias = mean(bias_a),
-            mean_stay = mean(stay),
+  dplyr::summarize(treatment = mean(treatment),
+            speed = mean(speed),
+            precision = mean(precision),
+            bias = mean(bias_a),
+            stay = mean(stay),
             N = length(stay))
 
 fourclusteroverall <- individual_indicator_estimates %>% drop_na() %>% 
   dplyr::group_by(fourcluster)%>%
-  dplyr::summarize(mean_speed = mean(speed),
-            mean_precision = mean(precision),
-            mean_bias = mean(bias_a),
-            mean_stay = mean(stay),
+  dplyr::summarize(speed = mean(speed),
+            precision = mean(precision),
+            bias = mean(bias_a),
+            stay = mean(stay),
             N = length(stay))
 
 
 
 cols <- c("#CFD8DC", "#90A4AE", "#455A64")
 
-individual_indicator_estimates$twocluster<-as.factor(individual_indicator_estimates$twocluster)
-individual_indicator_estimates$Calinsky<-as.factor(individual_indicator_estimates$Calinsky)
+# graphing results of two cluster estimates to identify significant differences
 
-ggplot(individual_indicator_estimates, aes(x = Calinsky, y = speed, fill = Calinsky)) + 
+individual_indicator_estimates$twocluster<-as.factor(individual_indicator_estimates$twocluster)
+
+ggplot(individual_indicator_estimates, aes(x = twocluster, y = speed, fill = twocluster)) + 
   stat_boxplot(geom = "errorbar",
                width = 0.25) + 
   geom_boxplot(alpha = 0.8,          # Fill transparency
                colour = "#474747",   # Border color
                outlier.colour = 1)  # Outlier color
   
-ggplot(individual_indicator_estimates, aes(x = Calinsky, y = precision, fill = Calinsky)) + 
+ggplot(individual_indicator_estimates, aes(x = twocluster, y = precision, fill = twocluster)) + 
   stat_boxplot(geom = "errorbar",
                width = 0.25) + 
   geom_boxplot(alpha = 0.8,          # Fill transparency
                colour = "#474747",   # Border color
                outlier.colour = 1)  # Outlier color
 
-ggplot(individual_indicator_estimates, aes(x = Calinsky, y = bias_a, fill = Calinsky)) + 
+ggplot(individual_indicator_estimates, aes(x = twocluster, y = bias_a, fill = twocluster)) + 
   stat_boxplot(geom = "errorbar",
                width = 0.25) + 
   geom_boxplot(alpha = 0.8,          # Fill transparency
                colour = "#474747",   # Border color
                outlier.colour = 1)  # Outlier color
 
-ggplot(individual_indicator_estimates, aes(x = Calinsky, y = stay, fill = Calinsky)) + 
+ggplot(individual_indicator_estimates, aes(x = twocluster, y = stay, fill = twocluster)) + 
   stat_boxplot(geom = "errorbar",
                width = 0.25) + 
   geom_boxplot(alpha = 0.8,          # Fill transparency
@@ -1557,38 +1572,53 @@ ggplot(individual_indicator_estimates, aes(x = Calinsky, y = stay, fill = Calins
                outlier.colour = 1)  # Outl
   
 
-write.csv(fourclusters,file="./tables/fourclusters.csv", row.names = FALSE)
+write.csv(twocluster,file="./tables/twocluster.csv", row.names = FALSE)
+write.csv(fourcluster,file="./tables/fourcluster.csv", row.names = FALSE)
 
 
 library(kableExtra)
-x=kable(fourclusters, format = "latex", caption = "Indicator estimates, by type and treatment", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tables/indicators_by_types.tex")
+x=kable(twocluster, format = "latex", caption = "Indicator estimates, by type and treatment, two clusters", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tables/indicators_by_types_two_cluster.tex")
+x=kable(fourcluster, format = "latex", caption = "Indicator estimates, by type and treatment, four clusters", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tables/indicators_by_types_four_cluster.tex")
+x=kable(twoclusteroverall, format = "latex", caption = "Indicator estimates, by type, two clusters", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tables/indicators_by_types_two_cluster_overall.tex")
+x=kable(fourclusteroverall, format = "latex", caption = "Indicator estimates, by type, four clusters", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tables/indicators_by_types_four_clusteroverall.tex")
 
-library(kableExtra)
-x=kable(fourclustersC, format = "latex", caption = "Indicator estimates, by type and treatment", booktabs = TRUE, digits=2, escape=F) %>% save_kable("tables/indicators_by_typesC.tex")
+
+as.pdf(twocluster, stem="indicators_by_types_two_cluster")
+file.rename(from="indicators_by_types_two_cluster.pdf",to="./tables/indicators_by_types_two_cluster.pdf")
+
+as.pdf(fourcluster, stem="indicators_by_types_four_cluster")
+file.rename(from="indicators_by_types_four_cluster.pdf",to="./tables/indicators_by_types_four_cluster.pdf")
+
+as.pdf(twoclusteroverall, stem="indicators_by_types_two_cluster_overall")
+file.rename(from="indicators_by_types_two_cluster_overall.pdf",to="./tables/indicators_by_types_two_cluster_overall.pdf")
+
+as.pdf(fourclusteroverall, stem="indicators_by_types_four_cluster_overall")
+file.rename(from="indicators_by_types_four_cluster_overall.pdf",to="./tables/indicators_by_types_four_cluster_overall.pdf")
 
 
-
-library(dplyr)
-library(reshape)
-library(tibble)
-individual_indicator_estimates<-as.data.frame(individual_indicator_estimates)
-ff_2 <- melt(individual_indicator_estimates[,c("fourcluster","treatment","speed","precision","bias_a","stay")], id.vars=c("fourcluster","treatment"), na.rm=TRUE)
-cast_ff_2<-cast(ff_2, variable ~ fourcluster+treatment, function(x) c(mean(x), quantile(x,c(0.05,0.95))))
-
+# # generating tables with 90% confidence intervals
+# 
+# library(dplyr)
+# library(reshape)
+# library(tibble)
+# individual_indicator_estimates<-as.data.frame(individual_indicator_estimates)
+# ff_2 <- melt(individual_indicator_estimates[,c("fourcluster","treatment","speed","precision","bias_a","stay")], id.vars=c("fourcluster"), na.rm=TRUE)
+# cast_ff_2<-cast(ff_2, variable ~ fourcluster, function(x) c(mean(x), quantile(x,c(0.05,0.95))))
 
 
 ```
 
+
+# POST ESTIMATION
 ## doing graphs of post-estimated choices over time using mean parameters of mixed models
 
 ```{r}
-
-draws_rev_mix_fit_barre   <- read_csv("./Mixed_estimates/draws__rev_mix__fit_gen_barre.csv")
-draws_rev_mix_fit_chiffre <- read_csv("./Mixed_estimates/draws__rev_mix__fit_gen_chiffre.csv")
-draws_rev_mix_fit_exp2    <- read_csv("./Mixed_estimates/draws__rev_mix__fit_gen_exp2.csv")
+draws_rev_mix_fit_barre   <- read_csv("./results/draws__rev_mix__fit_gen_barre.csv")
+draws_rev_mix_fit_chiffre <- read_csv("./results/draws__rev_mix__fit_gen_chiffre.csv")
+draws_rev_mix_fit_exp2    <- read_csv("./results/draws__rev_mix__fit_gen_exp2.csv")
 
 # for experiment 1
-options <- read_csv("menus_cs_exp1.csv")
+options <- read_csv("data/menus_cs_exp1.csv")
 options<-matrix(unlist(options), ncol=6,)
 J<-length(options[,1]) #(nr of menus)
 effect<-"attraction"
@@ -1615,8 +1645,11 @@ options <- read_csv("menus_cs_exp2.csv")
 options_a<-options[1:12,]
 options_s<-options[13:24,]
 options_c<-options[25:36,]
+```
 
-# then either
+
+```{r}
+# then depending on what was loaded previously
 effect<-"attraction"
 options<-options_a
 # or
