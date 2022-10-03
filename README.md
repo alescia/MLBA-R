@@ -23,7 +23,7 @@ To run the simulations and model estimation you need R and the following package
   - MLBAR_ESTIMATION.Rmd : to perform estimates of the parameters of the MLBAR model and outputs resulting estimates
   - MLBAR_POST_ESTIMATION.Rmd : to obtain post-estimation based on estimated parameters and simulate resulting choices
 
-## Models
+### Models
 
 - stan models are provided for three types of regressions:
   - a model with no revisions in choice and no mixed effects: mlba_single_v8_Frechet_generalized.stan
