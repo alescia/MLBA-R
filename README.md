@@ -2,7 +2,7 @@
 
 This repository presents an extension of the multiattribute linear ballistic accumulator model to allow for choice revisions. 
 
-# # Model setup, simulations and estimation 
+We provide RStan code for the model, and commands for the simulations, estimations and post-estimation on two experiments.
 
 ## Dependencies
 
