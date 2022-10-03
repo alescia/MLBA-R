@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+results/post_estimates_exp1_barre_attr.csv
+results/post_estimates_exp1_chiffre_attr.csv
+results/post_estimates_exp2_attr.csv
+results/post_estimates_exp2_comp.csv
+results/post_estimates_exp2_sim.csv
